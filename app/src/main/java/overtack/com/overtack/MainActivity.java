@@ -42,25 +42,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.toggleButton4_4).setOnClickListener(this);
     }
 
+    private void SwitchButtons(ToggleButton toggle, int id){
+            toggle = (ToggleButton) findViewById(id);
+            if(toggle.isChecked()) {
+                toggle.setChecked(false);
+            } else {
+                toggle.setChecked(true);
+            }
+    }
+
+    private int GetButtonId(Resources res, int rowNum, int colNum) {
+        int buttonId = res.getIdentifier("toggleButton" + rowNum + "-" + colNum, "id", getPackageName());
+        return buttonId;
+    }
+
     @Override
     public void onClick(View v){
         Resources res = getResources();
-        String tglbtnName = "toggleButton";
         ToggleButton toggleButton;
+
         goback:
         for(int i = 1; i < 5; i++) {
             for(int j = 1; j < 5; j++) {
-               String btnName = tglbtnName +  i + "-"+  j;
+               String btnName = "toggleButton" +  i + "-"+  j;
                int id = res.getIdentifier(btnName,"id",getPackageName());
                 toggleButton = (ToggleButton) findViewById(id);
                 if(v.getId() == toggleButton.getId()) {
 
-                    // 押されたボタンは既に切り替わっているのでそのまま
-//                    if(toggleButton.isChecked()) {
-//                        toggleButton.setChecked(false);
-//                    } else {
-//                        toggleButton.setChecked(true);
-//                    }
 
                     // 上下左右のボタンのON/OFF切り替え
                     int rowNum = Integer.parseInt(btnName.substring(12,13));
@@ -82,48 +90,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         rightFlg = true;
                     }
 
+
                     // 上のボタンのON/OFF切り替え
                     if(!topFlg) {
-                        int id1 = res.getIdentifier(tglbtnName + (rowNum - 1) + "-" + colNum,"id",getPackageName());
-                        toggleButton = (ToggleButton) findViewById(id1);
-                        if(toggleButton.isChecked()) {
-                            toggleButton.setChecked(false);
-                        } else {
-                            toggleButton.setChecked(true);
-                        }
+                        int id1 = GetButtonId(res,rowNum - 1, colNum);
+                        SwitchButtons(toggleButton, id1);
                     }
 
                     // 下のボタンのON/OFF切り替え
                     if(!bottomFlg) {
-                        int id2 = res.getIdentifier(tglbtnName + (rowNum + 1) + "-" + colNum,"id",getPackageName());
-                        toggleButton = (ToggleButton) findViewById(id2);
-                        if(toggleButton.isChecked()) {
-                            toggleButton.setChecked(false);
-                        } else {
-                            toggleButton.setChecked(true);
-                        }
+                        int id2 = GetButtonId(res,rowNum + 1, colNum);
+                        SwitchButtons(toggleButton, id2);
                     }
 
                     // 右のボタンのON/OFF切り替え
                     if(!rightFlg) {
-                        int id3 = res.getIdentifier(tglbtnName + rowNum + "-" + (colNum + 1),"id",getPackageName());
-                        toggleButton = (ToggleButton) findViewById(id3);
-                        if(toggleButton.isChecked()) {
-                            toggleButton.setChecked(false);
-                        } else {
-                            toggleButton.setChecked(true);
-                        }
+                        int id3 = GetButtonId(res,rowNum, colNum + 1);
+                        SwitchButtons(toggleButton, id3);
                     }
 
                     // 左のボタンのON/OFF切り替え
                     if(!leftFlg) {
-                        int id4 = res.getIdentifier(tglbtnName + rowNum + "-" + (colNum - 1),"id",getPackageName());
-                        toggleButton = (ToggleButton) findViewById(id4);
-                        if(toggleButton.isChecked()) {
-                            toggleButton.setChecked(false);
-                        } else {
-                            toggleButton.setChecked(true);
-                        }
+                        int id4 = GetButtonId(res,rowNum, colNum - 1);
+                        SwitchButtons(toggleButton, id4);
                     }
                     break goback;
                 }
