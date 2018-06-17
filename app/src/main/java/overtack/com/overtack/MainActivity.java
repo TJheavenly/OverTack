@@ -9,6 +9,9 @@ import android.widget.ToggleButton;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
+
+    private ToggleButton _toggleButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,12 +45,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.toggleButton4_4).setOnClickListener(this);
     }
 
-    private void SwitchButtons(ToggleButton toggle, int id){
-            toggle = (ToggleButton) findViewById(id);
-            if(toggle.isChecked()) {
-                toggle.setChecked(false);
+    private void SwitchButtons(int id){
+            _toggleButton = (ToggleButton) findViewById(id);
+            if(_toggleButton.isChecked()) {
+                _toggleButton.setChecked(false);
             } else {
-                toggle.setChecked(true);
+                _toggleButton.setChecked(true);
             }
     }
 
@@ -58,16 +61,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v){
-        Resources res = getResources();
-        ToggleButton toggleButton;
 
+        Resources res = getResources();
         goback:
         for(int i = 1; i < 5; i++) {
             for(int j = 1; j < 5; j++) {
                String btnName = "toggleButton" +  i + "-"+  j;
                int id = res.getIdentifier(btnName,"id",getPackageName());
-                toggleButton = (ToggleButton) findViewById(id);
-                if(v.getId() == toggleButton.getId()) {
+                _toggleButton = (ToggleButton) findViewById(id);
+                if(v.getId() == _toggleButton.getId()) {
 
 
                     // 上下左右のボタンのON/OFF切り替え
@@ -94,25 +96,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     // 上のボタンのON/OFF切り替え
                     if(!topFlg) {
                         int id1 = GetButtonId(res,rowNum - 1, colNum);
-                        SwitchButtons(toggleButton, id1);
+                        SwitchButtons(id1);
                     }
 
                     // 下のボタンのON/OFF切り替え
                     if(!bottomFlg) {
                         int id2 = GetButtonId(res,rowNum + 1, colNum);
-                        SwitchButtons(toggleButton, id2);
+                        SwitchButtons(id2);
                     }
 
                     // 右のボタンのON/OFF切り替え
                     if(!rightFlg) {
-                        int id3 = GetButtonId(res,rowNum, colNum + 1);
-                        SwitchButtons(toggleButton, id3);
+                        int id3 = GetButtonId(res, rowNum, colNum + 1);
+                        SwitchButtons(id3);
                     }
 
                     // 左のボタンのON/OFF切り替え
                     if(!leftFlg) {
-                        int id4 = GetButtonId(res,rowNum, colNum - 1);
-                        SwitchButtons(toggleButton, id4);
+                        int id4 = GetButtonId(res, rowNum, colNum - 1);
+                        SwitchButtons(id4);
                     }
                     break goback;
                 }
